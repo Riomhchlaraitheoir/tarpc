@@ -1157,7 +1157,7 @@ mod tests {
                 message: (),
             })
             .unwrap();
-        tokio::time::advance(std::time::Duration::from_secs(1000)).await;
+        tokio::time::advance(crate::time::Duration::from_secs(1000)).await;
 
         assert_matches!(
             channel.as_mut().poll_next(&mut noop_context()),
@@ -1251,7 +1251,7 @@ mod tests {
                 message: (),
             })
             .unwrap();
-        tokio::time::advance(std::time::Duration::from_secs(1000)).await;
+        tokio::time::advance(crate::time::Duration::from_secs(1000)).await;
 
         tx.send(fake_request(())).await.unwrap();
 

@@ -155,7 +155,7 @@ mod tests {
         let mut abortable_future = Box::new(Abortable::new(pending::<()>(), abort_registration));
 
         tokio::time::pause();
-        tokio::time::advance(std::time::Duration::from_secs(1000)).await;
+        tokio::time::advance(crate::time::Duration::from_secs(1000)).await;
 
         assert_matches!(
             in_flight_requests.poll_expired(&mut noop_context()),
@@ -192,7 +192,7 @@ mod tests {
         let abort_registration = in_flight_requests
             .start_request(
                 0,
-                Instant::now() + std::time::Duration::from_secs(10),
+                Instant::now() + crate::time::Duration::from_secs(10),
                 Span::current(),
             )
             .unwrap();

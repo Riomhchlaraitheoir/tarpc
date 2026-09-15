@@ -497,6 +497,13 @@ impl<T> Request<T> {
     }
 }
 
+mod time {
+    #[cfg(not(feature = "wasm_js"))]
+    pub use std::time::*;
+    #[cfg(feature = "wasm_js")]
+    pub use web_time::*;
+}
+
 #[test]
 fn test_channel_any_casts() {
     use assert_matches::assert_matches;

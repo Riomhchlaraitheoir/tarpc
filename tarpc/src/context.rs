@@ -41,7 +41,7 @@ pub struct Context {
 #[cfg(feature = "serde1")]
 mod absolute_to_relative_time {
     pub use serde::{Deserialize, Deserializer, Serialize, Serializer};
-    pub use std::time::{Duration, Instant};
+    pub use crate::time::{Duration, Instant};
 
     pub fn serialize<S>(deadline: &Instant, serializer: S) -> Result<S::Ok, S::Error>
     where

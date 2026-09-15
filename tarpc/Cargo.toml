@@ -26,6 +26,7 @@ serde-transport-json = ["serde-transport", "tokio-serde/json"]
 serde-transport-bincode = ["serde-transport", "tokio-serde/bincode"]
 tcp = ["tokio/net"]
 unix = ["tokio/net"]
+wasm_js = ["getrandom", "web-time"]
 
 full = [
     "serde1",
@@ -60,6 +61,10 @@ tracing = { version = "0.1", default-features = false, features = [
 tracing-opentelemetry = { version = "0.33", default-features = false }
 opentelemetry = { version = "0.32", default-features = false }
 opentelemetry-semantic-conventions = "0.32"
+
+# getrandom must be declared here to add the wasm_js feature to enable use in browser
+getrandom = { version = "0.4.2", features = ["wasm_js"], optional = true }
+web-time = { version = "1.1.0", optional = true }
 
 [dev-dependencies]
 anyhow = "1.0"

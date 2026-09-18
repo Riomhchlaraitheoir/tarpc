@@ -7,8 +7,8 @@
 use std::{
     collections::HashMap,
     hash::{BuildHasher, Hash},
-    time::{Duration, Instant},
 };
+use crate::time::{Duration, Instant};
 
 pub(crate) mod print_err;
 #[cfg(feature = "serde1")]

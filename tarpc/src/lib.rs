@@ -241,6 +241,7 @@ pub use tarpc_plugins::derive_serde;
 ///   * `fn new_stub` -- creates a new Client stub.
 pub use tarpc_plugins::service;
 
+
 pub(crate) mod cancellations;
 pub mod client;
 pub mod context;
@@ -250,7 +251,8 @@ pub(crate) mod util;
 
 pub use crate::transport::sealed::Transport;
 
-use std::{any::Any, error::Error, io, sync::Arc, time::Instant};
+use crate::time::Instant;
+use std::{any::Any, error::Error, io, sync::Arc};
 
 /// A message from a client to a server.
 #[derive(Debug)]
@@ -498,10 +500,23 @@ impl<T> Request<T> {
 }
 
 mod time {
-    #[cfg(not(feature = "wasm_js"))]
-    pub use std::time::*;
     #[cfg(feature = "wasm_js")]
-    pub use web_time::*;
+    pub use wasm_js::*;
+    #[cfg(not(feature = "wasm_js"))]
+    pub use ::{humantime::format_rfc3339, std::time::*};
+    #[cfg(feature = "wasm_js")]
+    mod wasm_js {
+        pub use web_time::*;
+
+        pub fn format_rfc3339(time: SystemTime) -> humantime::Rfc3339Timestamp {
+            use std::time;
+            let time = match time.duration_since(UNIX_EPOCH) {
+                Ok(d) => time::UNIX_EPOCH + d,
+                Err(e) => time::UNIX_EPOCH - e.duration(),
+            };
+            humantime::format_rfc3339(time)
+        }
+    }
 }
 
 #[test]

@@ -185,8 +185,8 @@ mod tests {
     use pin_utils::pin_mut;
     use std::{
         marker::PhantomData,
-        time::{Duration, Instant},
     };
+    use crate::time::{Duration, Instant};
     use tracing::Span;
 
     #[tokio::test]

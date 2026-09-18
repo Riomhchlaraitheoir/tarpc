@@ -25,8 +25,9 @@ use futures::{
 use in_flight_requests::{AlreadyExistsError, InFlightRequests};
 use pin_project::pin_project;
 use std::{
-    convert::TryFrom, error::Error, fmt, marker::PhantomData, pin::Pin, sync::Arc, time::SystemTime,
+    convert::TryFrom, error::Error, fmt, marker::PhantomData, pin::Pin, sync::Arc,
 };
+use crate::time::SystemTime;
 use tracing::{Span, info_span, instrument::Instrument};
 
 mod in_flight_requests;
@@ -208,7 +209,7 @@ where
         let span = info_span!(
             "RPC",
             rpc.trace_id = %request.context.trace_id(),
-            rpc.deadline = %humantime::format_rfc3339(SystemTime::now() + request.context.deadline.time_until()),
+            rpc.deadline = %crate::time::format_rfc3339(SystemTime::now() + request.context.deadline.time_until()),
             otel.kind = "server",
             otel.name = tracing::field::Empty,
         );
@@ -969,8 +970,8 @@ mod tests {
         io,
         pin::Pin,
         task::Poll,
-        time::{Duration, Instant},
     };
+    use crate::time::{Duration, Instant};
 
     fn test_channel<Req, Resp>() -> (
         Pin<Box<BaseChannel<Req, Resp, UnboundedChannel<ClientMessage<Req>, Response<Resp>>>>>,

@@ -4,15 +4,16 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+use crate::time::Instant;
 use crate::{
-    Request, Response,
-    cancellations::{CanceledRequests, RequestCancellation, cancellations},
-    context,
+    cancellations::{cancellations, CanceledRequests, RequestCancellation}, context,
     server::{Channel, Config, ResponseGuard, TrackedRequest},
+    Request,
+    Response,
 };
-use futures::{Sink, Stream, task::*};
+use futures::{task::*, Sink, Stream};
 use pin_project::pin_project;
-use std::{collections::VecDeque, io, pin::Pin, time::Instant};
+use std::{collections::VecDeque, io, pin::Pin};
 use tracing::Span;
 
 #[pin_project]

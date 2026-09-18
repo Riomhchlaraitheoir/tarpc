@@ -27,8 +27,8 @@ use std::{
         Arc,
         atomic::{AtomicUsize, Ordering},
     },
-    time::SystemTime,
 };
+use crate::time::SystemTime;
 use tokio::sync::{mpsc, oneshot};
 use tracing::Span;
 
@@ -137,7 +137,7 @@ where
         skip(self, ctx, request),
         fields(
             rpc.trace_id = tracing::field::Empty,
-            rpc.deadline = %humantime::format_rfc3339(SystemTime::now() + ctx.deadline.time_until()),
+            rpc.deadline = %crate::time::format_rfc3339(SystemTime::now() + ctx.deadline.time_until()),
             otel.kind = "client",
             otel.name = %request.name())
         )]

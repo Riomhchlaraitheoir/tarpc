@@ -4,8 +4,8 @@ use futures::future::{AbortHandle, AbortRegistration};
 use std::{
     collections::hash_map,
     task::{Context, Poll},
-    time::Instant,
 };
+use crate::time::Instant;
 use tokio_util::time::delay_queue::{self, DelayQueue};
 use tracing::Span;
 

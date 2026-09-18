@@ -64,7 +64,7 @@ opentelemetry-semantic-conventions = "0.32"
 
 # getrandom must be declared here to add the wasm_js feature to enable use in browser
 getrandom = { version = "0.4.2", features = ["wasm_js"], optional = true }
-web-time = { version = "1.1.0", optional = true }
+web-time = { version = "1.1.0", features = ["serde"], optional = true }
 
 [dev-dependencies]
 anyhow = "1.0"
